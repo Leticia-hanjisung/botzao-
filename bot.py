@@ -2,12 +2,22 @@ import discord
 from discord.ext import commands
 import random
 import asyncio
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='$', intents=intents)
 
+def meme_gen():
+    lista = os.listdir('images')
+    imagem_gerada = random.choice(lista)
+    return imagem_gerada
+
+def skzoo_gen():
+    lista = os.listdir('skzoo images')
+    imagem_gerada = random.choice(lista)
+    return imagem_gerada
 @bot.event
 async def on_ready():
     print(f'Estamos logados como {bot.user}')
@@ -74,6 +84,23 @@ class MyClient(discord.Client):
             else:
                 await message.channel.send(f'Oops. It is actually {answer}.')
 
+@bot.command()
+async def meme(ctx):
+    with open(f'images/{meme_gen()}', 'rb') as f:
+        #Vamos armazenar o arquivo convertido da biblioteca do Discord nesta variável!
+        picture = discord.File(f)
+    # Podemos então enviar esse arquivo como um parâmetro
+    await ctx.send(file=picture)
+
+
+@bot.command()
+async def skzoo(ctx):
+    with open(f'skzoo images/{skzoo_gen()}', 'rb') as f:
+        #Vamos armazenar o arquivo convertido da biblioteca do Discord nesta variável!
+        picture = discord.File(f)
+    # Podemos então enviar esse arquivo como um parâmetro
+    await ctx.send(file=picture)
+
 intents = discord.Intents.default()
 intents.message_content = True
-bot.run("MTQ2Nzk3MzY4MjU1ODQwMjgzNA.GydEuV.sveebT_61rQjrZE_lmGdWKDDg54zW4yWIWaY60")
+bot.run("MTQ2Nzk3MzY4MjU1ODQwMjgzNA.GbAdKR.UxleHx8eKr_boBBIFtuL1o2iET-e_eKRxL-bX4")
